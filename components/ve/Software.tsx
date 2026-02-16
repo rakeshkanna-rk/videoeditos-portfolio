@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { SOFTWARE } from "../constants";
+import { SOFTWARE } from "../../constants";
 
 export const Software: React.FC = () => {
   return (
@@ -40,15 +40,11 @@ export const Software: React.FC = () => {
                 }}
                 className="mb-8 flex justify-center h-16"
               >
-                {tool.icon.startsWith("http") ? (
-                  <img
-                    src={tool.icon}
-                    alt={tool.name}
-                    className="h-full w-auto object-contain brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-300"
-                  />
-                ) : (
-                  <span className="text-6xl">{tool.icon}</span>
-                )}
+                <img
+                  src={tool.icon}
+                  alt={tool.name}
+                  className="h-full w-auto object-contain brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-300"
+                />
               </motion.div>
 
               <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-widest text-center">

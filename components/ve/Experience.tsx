@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { EXPERIENCES } from "../constants";
+import { EXPERIENCES } from "../../constants";
 import { Clock, Briefcase } from "lucide-react";
 
 export const Experience: React.FC = () => {

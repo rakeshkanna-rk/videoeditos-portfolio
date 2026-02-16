@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { SPECIALIZATIONS } from "../constants";
+import { SPECIALIZATIONS } from "../../constants";
 import * as LucideIcons from "lucide-react";
 import { Brands } from "./Brands";
 
@@ -34,7 +34,7 @@ export const MegaIntro: React.FC = () => {
   return (
     <div className="bg-cinematic-navy">
       {/* 1. STICKY HERO SECTION */}
-      <div ref={containerRef} className="relative h-[150vh] sm:h-[180vh]">
+      <div ref={containerRef} className="relative h-[101vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           {/* Cinematic Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
@@ -63,7 +63,7 @@ export const MegaIntro: React.FC = () => {
             <div className="flex flex-col items-center">
               <motion.h1
                 style={{ letterSpacing: nameLetterSpacing }}
-                className="text-4xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter leading-none mb-6 select-none uppercase"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[6rem] font-bold tracking-tighter leading-none mb-6 select-none uppercase"
               >
                 THIRUVASAGAM
               </motion.h1>
@@ -71,12 +71,14 @@ export const MegaIntro: React.FC = () => {
               <div className="flex flex-col items-center gap-4">
                 <h2 className="text-sm sm:text-lg md:text-2xl uppercase tracking-[0.3em] font-light text-slate-400">
                   Crafting{" "}
-                  <span className="text-sky-500 font-bold">Emotion</span>
+                  <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-700">
+                    Emotion
+                  </span>
                 </h2>
                 <div className="flex items-center gap-4">
                   <span className="w-8 h-[1px] bg-sky-500/50"></span>
                   <span className="text-[10px] font-mono text-sky-400/80 uppercase">
-                    Motion Graphic Designer
+                    Video Editor / Disc Jockey
                   </span>
                   <span className="w-8 h-[1px] bg-sky-500/50"></span>
                 </div>
@@ -87,7 +89,7 @@ export const MegaIntro: React.FC = () => {
       </div>
       {/* 2 & 3. COMBINED ABOUT & EXPERTISE (Normal Scroll) */}
       <div className="relative z-40 bg-cinematic-navy border-t border-slate-900/50">
-        <section id="about" className="py-24 px-6">
+        <section id="about" className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <motion.div
@@ -99,7 +101,7 @@ export const MegaIntro: React.FC = () => {
               >
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl relative">
                   <img
-                    src="./assets/photos/thiru.png"
+                    src="/assets/photos/thiru.png"
                     alt="Thiruvasagam"
                     className="w-full h-full object-cover grayscale opacity-70 hover:opacity-100 transition-all duration-700"
                   />

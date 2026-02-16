@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { BRANDS } from "../constants";
+import { BRANDS } from "../../constants";
 
 export const Brands: React.FC = () => {
   // Duplicate brands to ensure seamless loop

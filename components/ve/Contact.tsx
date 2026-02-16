@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Send, Instagram, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Send, Instagram, Linkedin, Twitter, Mail, Phone } from 'lucide-react';
 
 export const Contact: React.FC = () => {
   return (
@@ -35,7 +35,15 @@ export const Contact: React.FC = () => {
                     <div className="text-white font-bold group-hover:text-sky-400 transition-colors">hello@thiru.studio</div>
                   </div>
                 </a>
-                
+                <a href="mailto:thiruvasagam@example.com" className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 group-hover:text-sky-400 group-hover:border-sky-500/50 transition-all">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Phone Number</div>
+                    <div className="text-white font-bold group-hover:text-sky-400 transition-colors">+91 9876543210</div>
+                  </div>
+                </a>                
                 <div className="flex gap-4 pt-4">
                   {[Instagram, Linkedin, Twitter].map((Icon, i) => (
                     <motion.a

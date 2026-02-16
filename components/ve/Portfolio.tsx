@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PROJECTS } from "../constants";
+import { PROJECTS } from "../../constants";
 import { Play, ExternalLink, ArrowUpRight, X } from "lucide-react";
 
 export const Portfolio: React.FC = () => {
@@ -137,16 +137,18 @@ export const Portfolio: React.FC = () => {
                 className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
                 onClick={() => setSelectedProject(null)}
               >
-                <X size={24} />
+                <X size={24}/>
               </button>
 
-              <iframe
-                src={`${selectedProject.videoUrl}?autoplay=1&mute=1`}
+              <video
+                src={selectedProject.videoUrl}
                 title={selectedProject.title}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+                className="w-full h-full object-cover"
+                controls
+                autoPlay
+                playsInline
+                loop
+              ></video>
             </motion.div>
           </motion.div>
         )}
