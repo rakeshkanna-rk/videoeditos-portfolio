@@ -68,7 +68,7 @@ export const Portfolio: React.FC = () => {
                 className="group relative bg-slate-950 rounded-[2.5rem] overflow-hidden border border-slate-900 cursor-pointer"
                 onClick={() => setSelectedProject(project)}
               >
-                <div className="aspect-[16/10] overflow-hidden relative">
+                <div className="aspect-16/10 overflow-hidden relative">
                   <img
                     src={project.thumbnail}
                     alt={project.title}
@@ -123,7 +123,7 @@ export const Portfolio: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-10 backdrop-blur-2xl bg-slate-950/90"
+            className="fixed inset-0 z-500 flex items-center justify-center p-4 md:p-10 backdrop-blur-2xl bg-slate-950/90"
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
@@ -137,7 +137,7 @@ export const Portfolio: React.FC = () => {
                 className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
                 onClick={() => setSelectedProject(null)}
               >
-                <X size={24}/>
+                <X size={24} />
               </button>
 
               <video

@@ -42,10 +42,10 @@ export const Brands: React.FC = () => {
                 <img
                   src={brand.logo}
                   alt={brand.name}
-                  className="h-16 md:h-20 w-auto object-contain grayscale opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+                  className="h-8 md:h-20 w-auto object-contain grayscale-0 md:grayscale-75 opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
                 />
               ) : (
-                <span className="text-4xl md:text-5xl grayscale opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
+                <span className="text-2xl md:text-5xl grayscale-0 md:grayscale-75 opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
                   {brand.logo}
                 </span>
               )}
@@ -55,8 +55,8 @@ export const Brands: React.FC = () => {
       </div>
 
       {/* Fade Masks */}
-      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
     </section>
   );
 };

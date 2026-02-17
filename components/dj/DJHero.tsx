@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Music, Disc, Radio, Headphones, Mic2, Star } from "lucide-react";
+import { DJ_INFO } from "../../constants";
 
 export const DJHero: React.FC = () => {
   return (
@@ -41,8 +42,8 @@ export const DJHero: React.FC = () => {
           className="text-6xl md:text-9xl font-black italic tracking-tighter mb-4"
         >
           DJ{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500">
-            THIRU
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-blue-500 uppercase">
+            {DJ_INFO.name}
           </span>
         </motion.h1>
 
@@ -52,7 +53,7 @@ export const DJHero: React.FC = () => {
           transition={{ delay: 0.5 }}
           className="text-lg md:text-xl text-slate-400 font-medium tracking-widest uppercase"
         >
-          Professional DJ | Live Performer | Crowd Energizer
+          {DJ_INFO.tagline}
         </motion.p>
       </div>
 

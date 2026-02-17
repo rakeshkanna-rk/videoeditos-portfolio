@@ -1,4 +1,3 @@
-
 export interface Experience {
   role: string;
   company: string;
@@ -24,4 +23,10 @@ export interface Specialization {
   title: string;
   description: string;
   icon: string;
+}
+
+export interface DJGig {
+  title: string;
+  location: string;
+  type: string;
 }

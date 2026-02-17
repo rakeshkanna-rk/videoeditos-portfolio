@@ -12,11 +12,33 @@ import {
   Star,
   Camera,
 } from "lucide-react";
-import { Experience, Software, Project, Specialization } from "./types";
+import { Experience, Software, Project, Specialization, DJGig } from "./types";
+import thiru from "./public/assets/photos/thiru.png";
 import bellavita from "./public/assets/photos/brands/bellavita.png";
 import sathya from "./public/assets/photos/brands/sathya.png";
 import vasanthnco from "./public/assets/photos/brands/vasanthnco.png";
 import srinivasa from "./public/assets/photos/brands/srinivasa.png";
+
+export const VE_INFO = {
+  name: "Thiruvasagam",
+  image: thiru,
+  intro: "Visual storyteller with a cinematic edge.",
+  bio: "Hi, I’m Thiruvasagam — a Professional Video Editor currently shaping narratives at Srinivasa Academy. I don't just edit videos; I craft energy that captures the heart.",
+  quote: "I craft emotion, energy, and impact in every frame.",
+};
+
+export const VE_PROCESS = [
+  {
+    id: "01",
+    title: "Dynamic 3D Editing",
+    description: "Combining storytelling with spatial 3D elements.",
+  },
+  {
+    id: "02",
+    title: "Emotional Impact",
+    description: "Crafting energy and rhythm in every single frame.",
+  },
+];
 
 export const EXPERIENCES: Experience[] = [
   {
@@ -131,9 +153,99 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+export const REELS: Project[] = [
+  {
+    id: 1,
+    title: "Fashion Brand Reel",
+    category: "Instagram Reel",
+    thumbnail: "https://picsum.photos/id/100/450/800",
+    videoUrl: "/assets/videos/placeholdervideo.mp4",
+  },
+  {
+    id: 2,
+    title: "Dynamic Travel Story",
+    category: "YouTube Short",
+    thumbnail: "https://picsum.photos/id/101/450/800",
+    videoUrl: "/assets/videos/placeholdervideo.mp4",
+  },
+  {
+    id: 3,
+    title: "Event Montage",
+    category: "Instagram Reel",
+    thumbnail: "https://picsum.photos/id/102/450/800",
+    videoUrl: "/assets/videos/placeholdervideo.mp4",
+  },
+  {
+    id: 4,
+    title: "Product Showcase",
+    category: "TikTok",
+    thumbnail: "https://picsum.photos/id/103/450/800",
+    videoUrl: "/assets/videos/placeholdervideo.mp4",
+  },
+];
+
 export const BRANDS = [
   { name: "Bella Vita", logo: bellavita },
   { name: "Sathya", logo: sathya },
   { name: "Vasanth & Co", logo: vasanthnco },
-  { name: "Srinivasa", logo: srinivasa }, // One fallback or found another? Let's use what we have.
+  { name: "Srinivasa", logo: srinivasa },
+];
+
+export const DJ_INFO = {
+  name: "THIRU",
+  tagline: "Professional DJ | Live Performer | Crowd Energizer",
+  experience_count: "10+ live shows",
+  phone: "+91 98765 43210",
+  email: "booking@thiru.dj",
+  instagram: "#",
+};
+
+export const DJ_GENRES = [
+  "Commercial Hits",
+  "EDM",
+  "Tamil & South Indian Party Mix",
+  "Hip-Hop",
+  "Bollywood",
+  "Mashups & Remixes",
+  "Festival & Club Sets",
+];
+
+export const DJ_EQUIPMENT = [
+  "Pioneer DJ Controllers",
+  "Professional Sound Setup Handling",
+];
+
+export const DJ_GIGS: DJGig[] = [
+  {
+    title: "College Cultural Events",
+    location: "Various Universities",
+    type: "Student Festivals",
+  },
+  {
+    title: "Club Shows",
+    location: "Elite Venues",
+    type: "Nightlife Mix",
+  },
+  {
+    title: "Festival Events",
+    location: "Main Stages",
+    type: "Open Air EDM",
+  },
+  {
+    title: "Private Parties",
+    location: "Exclusive Events",
+    type: "Custom Mix",
+  },
+  {
+    title: "Special Celebrations",
+    location: "Grand Events",
+    type: "Theme Based",
+  },
+];
+
+export const DJ_AVAILABLE_FOR = [
+  "College Events",
+  "Club Shows",
+  "Private Parties",
+  "Festivals",
 ];

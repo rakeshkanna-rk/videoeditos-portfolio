@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { SOFTWARE } from "../../constants";
+import { SOFTWARE } from "../constants";
 
 export const Software: React.FC = () => {
   return (

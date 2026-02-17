@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { SPECIALIZATIONS } from "../../constants";
+import { SPECIALIZATIONS, VE_INFO, VE_PROCESS } from "../constants";
 import * as LucideIcons from "lucide-react";
-import { Brands } from "./Brands";
+import { Brands } from "./ve/Brands";
 
 export const MegaIntro: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,7 +63,7 @@ export const MegaIntro: React.FC = () => {
             <div className="flex flex-col items-center">
               <motion.h1
                 style={{ letterSpacing: nameLetterSpacing }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[6rem] font-bold tracking-tighter leading-none mb-6 select-none uppercase"
+                className="text-4xl sm:text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter leading-none mb-6 select-none uppercase"
               >
                 THIRUVASAGAM
               </motion.h1>
@@ -71,9 +71,7 @@ export const MegaIntro: React.FC = () => {
               <div className="flex flex-col items-center gap-4">
                 <h2 className="text-sm sm:text-lg md:text-2xl uppercase tracking-[0.3em] font-light text-slate-400">
                   Crafting{" "}
-                  <span className="font-bold text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-sky-700">
-                    Emotion
-                  </span>
+                  <span className="text-sky-500 font-bold">Emotion</span>
                 </h2>
                 <div className="flex items-center gap-4">
                   <span className="w-8 h-px bg-sky-500/50"></span>
@@ -101,8 +99,8 @@ export const MegaIntro: React.FC = () => {
               >
                 <div className="aspect-4/5 rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl relative">
                   <img
-                    src="/assets/photos/thiru.png"
-                    alt="Thiruvasagam"
+                    src={VE_INFO.image}
+                    alt={VE_INFO.name}
                     className="w-full h-full object-cover grayscale opacity-70 hover:opacity-100 transition-all duration-700"
                   />
                   <div className="absolute inset-0 border-15 border-slate-950/20 pointer-events-none" />
@@ -126,31 +124,15 @@ export const MegaIntro: React.FC = () => {
                     </span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 leading-tight">
-                    Visual storyteller with a cinematic edge.
+                    {VE_INFO.intro}
                   </h2>
                   <p className="text-slate-300 text-sm sm:text-lg leading-relaxed font-light">
-                    Hi, I’m{" "}
-                    <span className="text-white font-bold">Thiruvasagam</span> —
-                    a Professional Video Editor currently shaping narratives at{" "}
-                    <span className="text-sky-400">Srinivasa Academy</span>. I
-                    don't just edit videos; I craft energy that captures the
-                    heart.
+                    {VE_INFO.bio}
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:gap-4">
-                  {[
-                    {
-                      id: "01",
-                      title: "Dynamic 3D Editing",
-                      desc: "Combining storytelling with spatial 3D elements.",
-                    },
-                    {
-                      id: "02",
-                      title: "Emotional Impact",
-                      desc: "Crafting energy and rhythm in every single frame.",
-                    },
-                  ].map((item) => (
+                  {VE_PROCESS.map((item) => (
                     <div
                       key={item.id}
                       className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900/50 border border-slate-800/50 group"
@@ -163,7 +145,7 @@ export const MegaIntro: React.FC = () => {
                           {item.title}
                         </h4>
                         <p className="text-slate-400 text-[10px] sm:text-sm leading-relaxed">
-                          {item.desc}
+                          {item.description}
                         </p>
                       </div>
                     </div>
@@ -171,7 +153,7 @@ export const MegaIntro: React.FC = () => {
                 </div>
 
                 <p className="text-white font-semibold italic text-lg sm:text-xl border-l-4 border-sky-500 pl-4 sm:pl-6 py-2">
-                  "I craft emotion, energy, and impact in every frame."
+                  "{VE_INFO.quote}"
                 </p>
               </motion.div>
             </div>

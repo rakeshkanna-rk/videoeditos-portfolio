@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Zap, Music2, Cpu, Headphones } from "lucide-react";
+import { DJ_INFO, DJ_GENRES, DJ_EQUIPMENT } from "../../constants";
 
 export const DJAbout: React.FC = () => {
   return (
@@ -25,8 +26,10 @@ export const DJAbout: React.FC = () => {
               </h2>
               <p className="text-slate-300 text-lg leading-relaxed font-light">
                 I am a professional DJ with experience performing at{" "}
-                <span className="text-white font-bold">10+ live shows</span>. I
-                specialize in creating high-energy atmospheres, seamless
+                <span className="text-white font-bold">
+                  {DJ_INFO.experience_count}
+                </span>
+                . I specialize in creating high-energy atmospheres, seamless
                 transitions, and unforgettable crowd experiences.
               </p>
               <p className="text-slate-400 mt-4 leading-relaxed">
@@ -65,21 +68,13 @@ export const DJAbout: React.FC = () => {
             viewport={{ once: true }}
             className="grid gap-6"
           >
-            <div className="p-8 rounded-[2rem] bg-gradient-to-br from-purple-900/40 to-blue-900/40 border border-white/10 shadow-2xl backdrop-blur-xl">
+            <div className="p-8 rounded-4xl bg-linear-to-br from-purple-900/40 to-blue-900/40 border border-white/10 shadow-2xl backdrop-blur-xl">
               <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                 <Music2 className="text-purple-400" />
                 Music Genres
               </h3>
               <div className="flex flex-wrap gap-2">
-                {[
-                  "Commercial Hits",
-                  "EDM",
-                  "Tamil & South Indian Party Mix",
-                  "Hip-Hop",
-                  "Bollywood",
-                  "Mashups & Remixes",
-                  "Festival & Club Sets",
-                ].map((genre) => (
+                {DJ_GENRES.map((genre) => (
                   <span
                     key={genre}
                     className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-slate-300"
@@ -90,20 +85,21 @@ export const DJAbout: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-8 rounded-[2rem] bg-slate-900/50 border border-white/5">
+            <div className="p-8 rounded-4xl bg-slate-900/50 border border-white/5">
               <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
                 <Cpu className="text-blue-400" />
                 Equipment Knowledge
               </h3>
               <ul className="space-y-4">
-                <li className="flex items-center gap-4 text-slate-400">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                  Pioneer DJ Controllers
-                </li>
-                <li className="flex items-center gap-4 text-slate-400">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                  Professional Sound Setup Handling
-                </li>
+                {DJ_EQUIPMENT.map((item, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-4 text-slate-400"
+                  >
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
           </motion.div>

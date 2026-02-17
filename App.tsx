@@ -10,10 +10,15 @@ const App: React.FC = () => {
     document.body.classList.add("opacity-100");
   }, []);
 
+  // Reset scroll to top when tab changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeTab]);
+
   return (
     <div className="relative min-h-screen bg-cinematic-navy overflow-x-hidden">
       {/* GLOBAL TOGGLE SWITCH */}
-      <div className="fixed bottom-8 md:bottom-auto md:top-8 left-1/2 -translate-x-1/2 z-[300]">
+      <div className="fixed bottom-8 md:bottom-auto md:top-4 left-1/2 -translate-x-1/2 z-300">
         <div className="flex items-center bg-slate-900/60 backdrop-blur-2xl px-2 py-2 rounded-full border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] scale-90 md:scale-100">
           <div className="flex items-center relative">
             {/* Sliding Background Selection */}

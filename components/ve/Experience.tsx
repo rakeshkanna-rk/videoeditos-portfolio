@@ -40,7 +40,7 @@ export const Experience: React.FC = () => {
               initial={{ scaleY: 0 }}
               whileInView={{ scaleY: 1 }}
               transition={{ duration: 1.5 }}
-              className="w-full h-full bg-gradient-to-b from-sky-500 via-sky-400 to-transparent"
+              className="w-full h-full bg-linear-to-b from-sky-500 via-sky-400 to-transparent"
             />
           </div>
 

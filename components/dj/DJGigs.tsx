@@ -1,35 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { DJ_GIGS, DJ_INFO } from "../../constants";
 
 export const DJGigs: React.FC = () => {
-  const gigs = [
-    {
-      title: "College Cultural Events",
-      location: "Various Universities",
-      type: "Student Festivals",
-    },
-    {
-      title: "Club Shows",
-      location: "Elite Venues",
-      type: "Nightlife Mix",
-    },
-    {
-      title: "Festival Events",
-      location: "Main Stages",
-      type: "Open Air EDM",
-    },
-    {
-      title: "Private Parties",
-      location: "Exclusive Events",
-      type: "Custom Mix",
-    },
-    {
-      title: "Special Celebrations",
-      location: "Grand Events",
-      type: "Theme Based",
-    },
-  ];
-
   return (
     <section className="py-24 px-6 max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -39,12 +12,12 @@ export const DJGigs: React.FC = () => {
             LIVE PERFORMANCE
           </h2>
           <p className="text-slate-500 mt-2 uppercase tracking-widest text-xs font-mono">
-            Successfully Performed in 10+ Live Shows
+            Successfully Performed in {DJ_INFO.experience_count}
           </p>
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-8">
-        {gigs.map((gig, i) => (
+        {DJ_GIGS.map((gig, i) => (
           <motion.div
             key={i}
             whileHover={{ x: 10 }}

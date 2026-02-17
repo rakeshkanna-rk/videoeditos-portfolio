@@ -22,13 +22,13 @@ export const Header: React.FC = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-100 transition-all duration-500 ${
         scrolled ? 'py-4 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 shadow-lg' : 'py-8 bg-transparent'
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.a 
-          href="#"
+          href="/"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-2xl font-bold tracking-tighter uppercase"
@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: '100vh' }}
             exit={{ opacity: 0, height: 0 }}
-            className="fixed inset-0 top-0 left-0 w-full bg-slate-950 z-[90] flex flex-col items-center justify-center gap-8 md:hidden overflow-hidden"
+            className="fixed inset-0 top-0 left-0 w-full bg-slate-950 z-90 flex flex-col items-center justify-center gap-8 md:hidden overflow-hidden"
           >
             {navLinks.map((link, i) => (
               <motion.a

@@ -4,6 +4,7 @@ import { MegaIntro } from "../components/ve/MegaIntro";
 import { Software } from "../components/ve/Software";
 import { Experience } from "../components/ve/Experience";
 import { Portfolio } from "../components/ve/Portfolio";
+import { VerticalShowcase } from "../components/ve/VerticalShowcase";
 import { Contact } from "../components/ve/Contact";
 import { Footer } from "../components/Footer";
 import { CustomCursor } from "../components/CustomCursor";
@@ -48,28 +49,29 @@ export const VideoEditor: React.FC = () => {
           <Experience />
         </div>
         <Portfolio />
+        <VerticalShowcase />
         <Contact />
       </main>
 
       <Footer />
 
       {/* Cinematic Frame Overlay (Fixed) */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[10px] md:border-[20px] border-slate-950/30">
+      <div className="fixed inset-0 pointer-events-none z-200 border-10 md:border-20 border-slate-950/30">
         {/* Dynamic crop marks */}
         <div className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 flex flex-col gap-1">
-          <div className="w-4 h-[1px] bg-white/20" />
-          <div className="w-2 h-[1px] bg-white/10" />
-          <div className="w-4 h-[1px] bg-white/20" />
+          <div className="w-4 h-px bg-white/20" />
+          <div className="w-2 h-px bg-white/10" />
+          <div className="w-4 h-px bg-white/20" />
         </div>
         <div className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 flex flex-col gap-1 items-end">
-          <div className="w-4 h-[1px] bg-white/20" />
-          <div className="w-2 h-[1px] bg-white/10" />
-          <div className="w-4 h-[1px] bg-white/20" />
+          <div className="w-4 h-px bg-white/20" />
+          <div className="w-2 h-px bg-white/10" />
+          <div className="w-4 h-px bg-white/20" />
         </div>
 
         {/* Decorative Playhead Lines */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[1px] h-4 bg-white/10" />
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[1px] h-4 bg-white/10" />
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-px h-4 bg-white/10" />
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-px h-4 bg-white/10" />
       </div>
     </div>
   );
