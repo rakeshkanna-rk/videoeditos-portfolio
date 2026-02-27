@@ -1,9 +1,35 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Zap, Music2, Cpu, Headphones } from "lucide-react";
-import { DJ_INFO, DJ_GENRES, DJ_EQUIPMENT } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 export const DJAbout: React.FC = () => {
+  const { getVal, content } = useSiteContent();
+
+  const experienceCount = getVal('dj_about', 'experience_count') || '10+ live shows';
+  const aboutP1 = getVal('dj_about', 'about_p1');
+  const aboutP2 = getVal('dj_about', 'about_p2');
+  const card1Title = getVal('dj_about', 'card1_title') || 'Smooth Mixes';
+  const card1Subtitle = getVal('dj_about', 'card1_subtitle') || 'Professional Transitions';
+  const card2Title = getVal('dj_about', 'card2_title') || 'High Energy';
+  const card2Subtitle = getVal('dj_about', 'card2_subtitle') || 'Crowd Interaction';
+
+  // Build genres list
+  const genres: string[] = [];
+  if (content?.dj_genres) {
+    content.dj_genres.forEach((item: any) => {
+      genres.push(item.value);
+    });
+  }
+
+  // Build equipment list
+  const equipment: string[] = [];
+  if (content?.dj_equipment) {
+    content.dj_equipment.forEach((item: any) => {
+      equipment.push(item.value);
+    });
+  }
+
   return (
     <section className="py-24  relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -25,18 +51,17 @@ export const DJAbout: React.FC = () => {
                 About Me
               </h2>
               <p className="text-slate-300 text-lg leading-relaxed font-light">
-                I am a professional DJ with experience performing at{" "}
-                <span className="text-white font-bold">
-                  {DJ_INFO.experience_count}
-                </span>
-                . I specialize in creating high-energy atmospheres, seamless
-                transitions, and unforgettable crowd experiences.
+                {aboutP1 || (
+                  <>
+                    I am a professional DJ with experience performing at{" "}
+                    <span className="text-white font-bold">{experienceCount}</span>
+                    . I specialize in creating high-energy atmospheres, seamless
+                    transitions, and unforgettable crowd experiences.
+                  </>
+                )}
               </p>
               <p className="text-slate-400 mt-4 leading-relaxed">
-                My performances blend rhythm, emotion, and energy to keep
-                audiences fully engaged from start to finish. With a deep
-                understanding of music flow and crowd psychology, I deliver
-                powerful live sets that turn events into memorable experiences.
+                {aboutP2 || 'My performances blend rhythm, emotion, and energy to keep audiences fully engaged from start to finish.'}
               </p>
             </div>
 
@@ -45,18 +70,18 @@ export const DJAbout: React.FC = () => {
                 <div className="text-purple-500 mb-2">
                   <Headphones size={24} />
                 </div>
-                <h4 className="font-bold text-white mb-1">Smooth Mixes</h4>
+                <h4 className="font-bold text-white mb-1">{card1Title}</h4>
                 <p className="text-xs text-slate-500 uppercase tracking-widest">
-                  Professional Transitions
+                  {card1Subtitle}
                 </p>
               </div>
               <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
                 <div className="text-blue-500 mb-2">
                   <Zap size={24} />
                 </div>
-                <h4 className="font-bold text-white mb-1">High Energy</h4>
+                <h4 className="font-bold text-white mb-1">{card2Title}</h4>
                 <p className="text-xs text-slate-500 uppercase tracking-widest">
-                  Crowd Interaction
+                  {card2Subtitle}
                 </p>
               </div>
             </div>
@@ -74,7 +99,7 @@ export const DJAbout: React.FC = () => {
                 Music Genres
               </h3>
               <div className="flex flex-wrap gap-2">
-                {DJ_GENRES.map((genre) => (
+                {genres.map((genre) => (
                   <span
                     key={genre}
                     className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-slate-300"
@@ -91,7 +116,7 @@ export const DJAbout: React.FC = () => {
                 Equipment Knowledge
               </h3>
               <ul className="space-y-4">
-                {DJ_EQUIPMENT.map((item, idx) => (
+                {equipment.map((item, idx) => (
                   <li
                     key={idx}
                     className="flex items-center gap-4 text-slate-400"

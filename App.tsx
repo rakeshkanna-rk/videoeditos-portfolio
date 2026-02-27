@@ -1,9 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { VideoEditor } from "./pages/VideoEditor";
 import { DJ } from "./pages/DJ";
+import { AdminLogin } from "./pages/AdminLogin";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { AdminAuthProvider, useAdminAuth } from "./context/AdminAuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
-const App: React.FC = () => {
+type Route = "site" | "admin-login" | "admin-dashboard";
+
+const useHashRoute = (): Route => {
+  const getRoute = (): Route => {
+    const hash = window.location.hash;
+    if (hash === '#/admin/login') return 'admin-login';
+    if (hash === '#/admin') return 'admin-dashboard';
+    return 'site';
+  };
+
+  const [route, setRoute] = useState<Route>(getRoute);
+
+  useEffect(() => {
+    const handler = () => setRoute(getRoute());
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, []);
+
+  return route;
+};
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated } = useAdminAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      window.location.hash = '#/admin/login';
+    }
+  }, [isAuthenticated]);
+
+  if (!isAuthenticated) return null;
+  return <>{children}</>;
+};
+
+const MainSite: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"video" | "dj">("video");
 
   useEffect(() => {
@@ -24,9 +61,8 @@ const App: React.FC = () => {
             {/* Sliding Background Selection */}
             <motion.div
               layoutId="activeTab"
-              className={`absolute inset-0 rounded-full ${
-                activeTab === "video" ? "bg-sky-500" : "bg-purple-600"
-              }`}
+              className={`absolute inset-0 rounded-full ${activeTab === "video" ? "bg-sky-500" : "bg-purple-600"
+                }`}
               animate={{
                 x: activeTab === "video" ? 0 : 135,
                 width: activeTab === "video" ? 135 : 75,
@@ -36,22 +72,20 @@ const App: React.FC = () => {
 
             <button
               onClick={() => setActiveTab("video")}
-              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors duration-300 w-[135px] ${
-                activeTab === "video"
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors duration-300 w-[135px] ${activeTab === "video"
                   ? "text-white"
                   : "text-slate-400 hover:text-white"
-              }`}
+                }`}
             >
               Video Editor
             </button>
 
             <button
               onClick={() => setActiveTab("dj")}
-              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors duration-300 w-[75px] ${
-                activeTab === "dj"
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors duration-300 w-[75px] ${activeTab === "dj"
                   ? "text-white"
                   : "text-slate-400 hover:text-white"
-              }`}
+                }`}
             >
               DJ
             </button>
@@ -73,6 +107,22 @@ const App: React.FC = () => {
         </motion.div>
       </AnimatePresence>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  const route = useHashRoute();
+
+  return (
+    <AdminAuthProvider>
+      {route === 'site' && <MainSite />}
+      {route === 'admin-login' && <AdminLogin />}
+      {route === 'admin-dashboard' && (
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      )}
+    </AdminAuthProvider>
   );
 };
 

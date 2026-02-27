@@ -1,10 +1,73 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { REELS } from "../../constants";
-import { Play, X, Smartphone, Instagram } from "lucide-react";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { useImage } from "../../hooks/useImage";
+import { Play, X, Smartphone } from "lucide-react";
+
+interface ReelData {
+  id: number;
+  title: string;
+  category: string;
+  thumbnail: string;
+  videoUrl: string;
+}
+
+const ReelCard: React.FC<{ reel: ReelData; index: number; onClick: () => void }> = ({ reel, index, onClick }) => {
+  const { src: thumbnailSrc } = useImage(reel.thumbnail);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group relative bg-slate-900 rounded-4xl overflow-hidden border border-slate-800/50 cursor-pointer aspect-9/16"
+      onClick={onClick}
+    >
+      {thumbnailSrc && (
+        <img
+          src={thumbnailSrc}
+          alt={reel.title}
+          className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+          loading="lazy"
+        />
+      )}
+
+      <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity" />
+
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="w-16 h-16 rounded-full bg-sky-500/90 flex items-center justify-center text-slate-950 shadow-2xl scale-75 group-hover:scale-100 transition-transform">
+          <Play size={24} fill="currentColor" className="ml-1" />
+        </div>
+      </div>
+
+      <div className="absolute bottom-6 left-6 right-6">
+        <span className="text-[10px] font-mono text-sky-400 uppercase tracking-widest block mb-2">
+          {reel.category}
+        </span>
+        <h3 className="text-sm md:text-lg font-bold text-white line-clamp-1 group-hover:text-sky-500 transition-colors uppercase tracking-tight">
+          {reel.title}
+        </h3>
+      </div>
+    </motion.div>
+  );
+};
 
 export const VerticalShowcase: React.FC = () => {
-  const [selectedReel, setSelectedReel] = useState<any>(null);
+  const [selectedReel, setSelectedReel] = useState<ReelData | null>(null);
+  const { getVal, getList } = useSiteContent();
+
+  const sectionSubtitle = getVal('reels', 'section_subtitle') || 'Optimized for engagement. High-energy edits for Instagram Reels, YouTube Shorts, and TikTok.';
+
+  // Build reels from content
+  const reelsData = getList('reels', 'reel_', ['title', 'category', 'thumbnail', 'video']);
+  const reels: ReelData[] = reelsData.map((r, i) => ({
+    id: i + 1,
+    title: r.title,
+    category: r.category,
+    thumbnail: r.thumbnail,
+    videoUrl: r.video,
+  }));
 
   return (
     <section id="reels" className="py-24 bg-slate-950 relative overflow-hidden">
@@ -35,45 +98,13 @@ export const VerticalShowcase: React.FC = () => {
             viewport={{ once: true }}
             className="text-slate-400 max-w-sm font-light text-sm md:text-base"
           >
-            Optimized for engagement. High-energy edits for Instagram Reels,
-            YouTube Shorts, and TikTok.
+            {sectionSubtitle}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          {REELS.map((reel, i) => (
-            <motion.div
-              key={reel.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative bg-slate-900 rounded-4xl overflow-hidden border border-slate-800/50 cursor-pointer aspect-9/16"
-              onClick={() => setSelectedReel(reel)}
-            >
-              <img
-                src={reel.thumbnail}
-                alt={reel.title}
-                className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-              />
-
-              <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity" />
-
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 rounded-full bg-sky-500/90 flex items-center justify-center text-slate-950 shadow-2xl scale-75 group-hover:scale-100 transition-transform">
-                  <Play size={24} fill="currentColor" className="ml-1" />
-                </div>
-              </div>
-
-              <div className="absolute bottom-6 left-6 right-6">
-                <span className="text-[10px] font-mono text-sky-400 uppercase tracking-widest block mb-2">
-                  {reel.category}
-                </span>
-                <h3 className="text-sm md:text-lg font-bold text-white line-clamp-1 group-hover:text-sky-500 transition-colors uppercase tracking-tight">
-                  {reel.title}
-                </h3>
-              </div>
-            </motion.div>
+          {reels.map((reel, i) => (
+            <ReelCard key={reel.id} reel={reel} index={i} onClick={() => setSelectedReel(reel)} />
           ))}
         </div>
       </div>

@@ -1,9 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Music, Disc, Radio, Headphones, Mic2, Star } from "lucide-react";
-import { DJ_INFO } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 export const DJHero: React.FC = () => {
+  const { getVal } = useSiteContent();
+
+  const name = getVal('dj_hero', 'name') || 'THIRU';
+  const tagline = getVal('dj_hero', 'tagline') || 'Professional DJ | Live Performer | Crowd Energizer';
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Neon Circles Background */}
@@ -43,7 +48,7 @@ export const DJHero: React.FC = () => {
         >
           DJ{" "}
           <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-blue-500 uppercase">
-            {DJ_INFO.name}
+            {name}
           </span>
         </motion.h1>
 
@@ -53,7 +58,7 @@ export const DJHero: React.FC = () => {
           transition={{ delay: 0.5 }}
           className="text-lg md:text-xl text-slate-400 font-medium tracking-widest uppercase"
         >
-          {DJ_INFO.tagline}
+          {tagline}
         </motion.p>
       </div>
 

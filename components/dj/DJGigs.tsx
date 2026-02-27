@@ -1,8 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { DJ_GIGS, DJ_INFO } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 export const DJGigs: React.FC = () => {
+  const { getVal, getList } = useSiteContent();
+
+  const experienceCount = getVal('dj_about', 'experience_count') || '10+ live shows';
+  const gigs = getList('dj_gigs', 'gig_', ['title', 'location', 'type']);
+
   return (
     <section className="py-24 px-6 max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -12,12 +17,12 @@ export const DJGigs: React.FC = () => {
             LIVE PERFORMANCE
           </h2>
           <p className="text-slate-500 mt-2 uppercase tracking-widest text-xs font-mono">
-            Successfully Performed in {DJ_INFO.experience_count}
+            Successfully Performed in {experienceCount}
           </p>
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-8">
-        {DJ_GIGS.map((gig, i) => (
+        {gigs.map((gig, i) => (
           <motion.div
             key={i}
             whileHover={{ x: 10 }}

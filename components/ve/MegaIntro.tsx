@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { SPECIALIZATIONS } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { useImage } from "../../hooks/useImage";
 import * as LucideIcons from "lucide-react";
 import { Brands } from "./Brands";
 
 export const MegaIntro: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { getVal, getList, loading } = useSiteContent();
 
   // Create scroll progress for the first two sections
   const { scrollYProgress } = useScroll({
@@ -30,6 +32,36 @@ export const MegaIntro: React.FC = () => {
   // About Animations (50% to 100% of the sticky scroll)
   const aboutOpacity = useTransform(smoothProgress, [0.4, 0.6, 1], [0, 1, 1]);
   const aboutY = useTransform(smoothProgress, [0.4, 0.6], [100, 0]);
+
+  // Get content
+  const heroName = getVal('hero', 'name') || 'THIRUVASAGAM';
+  const heroSubtitle = getVal('hero', 'subtitle') || 'Crafting Emotion';
+  const heroRoleTag = getVal('hero', 'role_tag') || 'Video Editor / Disc Jockey';
+  const aboutIntro = getVal('about', 'intro');
+  const aboutBio = getVal('about', 'bio');
+  const aboutQuote = getVal('about', 'quote');
+  const profileImagePath = getVal('about', 'profile_image') || '/assets/photos/thiru.png';
+
+  // Get image (but profile_image is excluded from RPC since it's type 'image')
+  // We'll use the path directly since it's a local asset
+  const { src: profileSrc } = useImage(profileImagePath);
+
+  // Process items
+  const processes = [
+    {
+      id: getVal('about', 'process_1_id') || '01',
+      title: getVal('about', 'process_1_title') || 'Dynamic 3D Editing',
+      desc: getVal('about', 'process_1_desc') || 'Combining storytelling with spatial 3D elements.',
+    },
+    {
+      id: getVal('about', 'process_2_id') || '02',
+      title: getVal('about', 'process_2_title') || 'Emotional Impact',
+      desc: getVal('about', 'process_2_desc') || 'Crafting energy and rhythm in every single frame.',
+    },
+  ];
+
+  // Specializations
+  const specializations = getList('specializations', 'spec_', ['title', 'desc', 'icon']);
 
   return (
     <div className="bg-cinematic-navy">
@@ -65,20 +97,20 @@ export const MegaIntro: React.FC = () => {
                 style={{ letterSpacing: nameLetterSpacing }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-[6rem] font-bold tracking-tighter leading-none mb-6 select-none uppercase"
               >
-                THIRUVASAGAM
+                {heroName}
               </motion.h1>
 
               <div className="flex flex-col items-center gap-4">
                 <h2 className="text-sm sm:text-lg md:text-2xl uppercase tracking-[0.3em] font-light text-slate-400">
-                  Crafting{" "}
+                  {heroSubtitle.split(' ').slice(0, -1).join(' ')}{" "}
                   <span className="font-bold text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-sky-700">
-                    Emotion
+                    {heroSubtitle.split(' ').slice(-1)[0]}
                   </span>
                 </h2>
                 <div className="flex items-center gap-4">
                   <span className="w-8 h-px bg-sky-500/50"></span>
                   <span className="text-[10px] font-mono text-sky-400/80 uppercase">
-                    Video Editor / Disc Jockey
+                    {heroRoleTag}
                   </span>
                   <span className="w-8 h-px bg-sky-500/50"></span>
                 </div>
@@ -101,9 +133,10 @@ export const MegaIntro: React.FC = () => {
               >
                 <div className="aspect-4/5 rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl relative">
                   <img
-                    src="/assets/photos/thiru.png"
-                    alt="Thiruvasagam"
+                    src={profileSrc || '/assets/photos/thiru.png'}
+                    alt={heroName}
                     className="w-full h-full object-cover grayscale opacity-70 hover:opacity-100 transition-all duration-700"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 border-15 border-slate-950/20 pointer-events-none" />
                 </div>
@@ -126,31 +159,15 @@ export const MegaIntro: React.FC = () => {
                     </span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 leading-tight">
-                    Visual storyteller with a cinematic edge.
+                    {aboutIntro}
                   </h2>
                   <p className="text-slate-300 text-sm sm:text-lg leading-relaxed font-light">
-                    Hi, I’m{" "}
-                    <span className="text-white font-bold">Thiruvasagam</span> —
-                    a Professional Video Editor currently shaping narratives at{" "}
-                    <span className="text-sky-400">Srinivasa Academy</span>. I
-                    don't just edit videos; I craft energy that captures the
-                    heart.
+                    {aboutBio}
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:gap-4">
-                  {[
-                    {
-                      id: "01",
-                      title: "Dynamic 3D Editing",
-                      desc: "Combining storytelling with spatial 3D elements.",
-                    },
-                    {
-                      id: "02",
-                      title: "Emotional Impact",
-                      desc: "Crafting energy and rhythm in every single frame.",
-                    },
-                  ].map((item) => (
+                  {processes.map((item) => (
                     <div
                       key={item.id}
                       className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl bg-slate-900/50 border border-slate-800/50 group"
@@ -171,7 +188,7 @@ export const MegaIntro: React.FC = () => {
                 </div>
 
                 <p className="text-white font-semibold italic text-lg sm:text-xl border-l-4 border-sky-500 pl-4 sm:pl-6 py-2">
-                  "I craft emotion, energy, and impact in every frame."
+                  "{aboutQuote}"
                 </p>
               </motion.div>
             </div>
@@ -197,7 +214,7 @@ export const MegaIntro: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
-              {SPECIALIZATIONS.map((spec, i) => {
+              {specializations.map((spec, i) => {
                 const IconComponent = (LucideIcons as any)[spec.icon];
                 return (
                   <motion.div
@@ -220,7 +237,7 @@ export const MegaIntro: React.FC = () => {
                         {spec.title}
                       </h4>
                       <p className="text-slate-400 text-sm md:text-base leading-relaxed font-light">
-                        {spec.description}
+                        {spec.desc}
                       </p>
                     </div>
                     <div className="absolute top-4 right-6 text-[8px] font-mono text-white/5 opacity-0 group-hover:opacity-100 transition-opacity">

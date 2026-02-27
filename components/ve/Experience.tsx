@@ -1,9 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { EXPERIENCES } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
 import { Clock, Briefcase } from "lucide-react";
 
 export const Experience: React.FC = () => {
+  const { getList } = useSiteContent();
+
+  const experiences = getList('experience', 'exp_', ['role', 'company', 'period', 'desc']);
+
   return (
     <section className="py-24 bg-slate-950 overflow-hidden relative">
       {/* Decorative funky floating element */}
@@ -45,7 +49,7 @@ export const Experience: React.FC = () => {
           </div>
 
           <div className="space-y-16 md:space-y-24">
-            {EXPERIENCES.map((exp, index) => (
+            {experiences.map((exp, index) => (
               <motion.div
                 key={index}
                 initial={{
@@ -83,7 +87,7 @@ export const Experience: React.FC = () => {
                       {exp.company}
                     </div>
                     <p className="text-slate-400 text-sm md:text-lg leading-relaxed font-light">
-                      {exp.description}
+                      {exp.desc}
                     </p>
                   </motion.div>
                 </div>

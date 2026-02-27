@@ -1,9 +1,25 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, CheckCircle2, Phone, Mail, Instagram } from "lucide-react";
-import { DJ_INFO, DJ_AVAILABLE_FOR } from "../../constants";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 export const DJBooking: React.FC = () => {
+  const { getVal, content } = useSiteContent();
+
+  const heading = getVal('dj_booking', 'heading') || 'Booking & Contact';
+  const description = getVal('dj_booking', 'description') || 'Available for worldwide bookings and special performances.';
+  const phone = getVal('dj_booking', 'phone') || '+91 98765 43210';
+  const email = getVal('dj_booking', 'email') || 'booking@thiru.dj';
+  const instagramUrl = getVal('dj_booking', 'instagram_url') || '#';
+
+  // Build available for list
+  const availableFor: string[] = [];
+  if (content?.dj_available_for) {
+    content.dj_available_for.forEach((item: any) => {
+      availableFor.push(item.value);
+    });
+  }
+
   return (
     <section className="py-24 bg-linear-to-t from-purple-900/20 to-transparent">
       <div className="container mx-auto px-6 max-w-4xl">
@@ -22,10 +38,10 @@ export const DJBooking: React.FC = () => {
             </motion.div>
 
             <h2 className="text-4xl md:text-5xl font-black italic mb-6">
-              Booking & Contact
+              {heading}
             </h2>
             <p className="text-slate-400 text-lg mb-12">
-              Available for worldwide bookings and special performances.
+              {description}
             </p>
 
             <div className="grid md:grid-cols-2 gap-12 text-left mb-16">
@@ -33,7 +49,7 @@ export const DJBooking: React.FC = () => {
                 <h4 className="text-xs font-mono tracking-[0.4em] text-purple-500 uppercase">
                   Available For
                 </h4>
-                {DJ_AVAILABLE_FOR.map((item) => (
+                {availableFor.map((item) => (
                   <div
                     key={item}
                     className="flex items-center gap-3 text-slate-200 font-medium"
@@ -50,25 +66,25 @@ export const DJBooking: React.FC = () => {
                 </h4>
                 <div className="space-y-4">
                   <a
-                    href={`tel:${DJ_INFO.phone}`}
+                    href={`tel:${phone}`}
                     className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/50 transition-all group"
                   >
                     <div className="p-3 bg-purple-500/10 rounded-xl text-purple-400 group-hover:scale-110 transition-transform">
                       <Phone size={20} />
                     </div>
                     <span className="font-bold text-white group-hover:text-purple-400 transition-colors">
-                      {DJ_INFO.phone}
+                      {phone}
                     </span>
                   </a>
                   <a
-                    href={`mailto:${DJ_INFO.email}`}
+                    href={`mailto:${email}`}
                     className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-blue-500/50 transition-all group"
                   >
                     <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400 group-hover:scale-110 transition-transform">
                       <Mail size={20} />
                     </div>
                     <span className="font-bold text-white group-hover:text-blue-400 transition-colors">
-                      {DJ_INFO.email}
+                      {email}
                     </span>
                   </a>
                 </div>
@@ -76,7 +92,7 @@ export const DJBooking: React.FC = () => {
             </div>
 
             <motion.a
-              href={DJ_INFO.instagram}
+              href={instagramUrl}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-3 px-10 py-5 bg-linear-to-r from-purple-600 to-blue-600 rounded-full font-bold text-white shadow-[0_0_40px_rgba(147,51,234,0.3)] hover:shadow-[0_0_60px_rgba(147,51,234,0.5)] transition-all"
