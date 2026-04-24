@@ -1,61 +1,79 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { User } from '@supabase/supabase-js';
 
 interface AdminAuthContextType {
-    token: string | null;
-    email: string | null;
+    user: User | null;
     isAuthenticated: boolean;
+    loading: boolean;
     login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    logout: () => void;
+    logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextType>({
-    token: null,
-    email: null,
+    user: null,
     isAuthenticated: false,
+    loading: true,
     login: async () => ({ success: false }),
-    logout: () => { },
+    logout: async () => { },
 });
 
 export const useAdminAuth = () => useContext(AdminAuthContext);
 
 export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(() => localStorage.getItem('admin_token'));
-    const [email, setEmail] = useState<string | null>(() => localStorage.getItem('admin_email'));
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const login = async (emailInput: string, password: string) => {
+    useEffect(() => {
+        // Check current session
+        const initAuth = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUser(session?.user ?? null);
+            setLoading(false);
+        };
+
+        initAuth();
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+            setLoading(false);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const login = async (email: string, password: string) => {
         try {
-            const { data, error } = await supabase.rpc('admin_login', {
-                p_email: emailInput,
-                p_password: password,
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
             });
 
             if (error) throw error;
 
-            if (data?.success) {
-                setToken(data.token);
-                setEmail(data.email);
-                localStorage.setItem('admin_token', data.token);
-                localStorage.setItem('admin_email', data.email);
+            if (data.user) {
                 return { success: true };
-            } else {
-                return { success: false, error: data?.error || 'Login failed' };
             }
+            return { success: false, error: 'Login failed' };
         } catch (err: any) {
             return { success: false, error: err.message || 'An error occurred' };
         }
     };
 
-    const logout = () => {
-        setToken(null);
-        setEmail(null);
-        localStorage.removeItem('admin_token');
-        localStorage.removeItem('admin_email');
+    const logout = async () => {
+        await supabase.auth.signOut();
         window.location.hash = '#/admin/login';
     };
 
     return (
-        <AdminAuthContext.Provider value={{ token, email, isAuthenticated: !!token, login, logout }}>
+        <AdminAuthContext.Provider value={{ 
+            user, 
+            isAuthenticated: !!user, 
+            loading,
+            login, 
+            logout 
+        }}>
             {children}
         </AdminAuthContext.Provider>
     );

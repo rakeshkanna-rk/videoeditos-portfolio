@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     LogOut, Save, ChevronDown, ChevronRight, CheckCircle,
     AlertCircle, RefreshCw, Type, Image as ImageIcon, Link2, Hash,
-    Plus, Trash2, Upload, GripVertical, Video, Zap, Clock,
+    Plus, Trash2, Upload, GripVertical, Zap, Clock,
     Settings, LayoutDashboard, Briefcase, Film, User, Mail,
     Globe, Smartphone, Music, Mic, Wrench, Calendar, CheckSquare,
     X, Search, Copy, ExternalLink, FileText, Video as VideoIcon
@@ -448,8 +448,6 @@ const TABLE_MAPPING: Record<string, string> = {
     footer: 'site_settings',
     dj_hero: 'site_settings',
     dj_about: 'site_settings',
-    dj_genres: 'site_settings',
-    dj_equipment: 'site_settings',
     dj_booking: 'site_settings',
     dj_available_for: 'site_settings',
     specializations: 'specializations',
@@ -458,7 +456,9 @@ const TABLE_MAPPING: Record<string, string> = {
     experience: 'experience',
     portfolio: 'portfolio_projects',
     reels: 'reels',
-    dj_gigs: 'dj_gigs'
+    dj_gigs: 'dj_gigs',
+    dj_genres: 'dj_genres',
+    dj_equipment: 'dj_equipment'
 };
 
 const LIST_FIELD_MAPS: Record<string, Record<string, string>> = {
@@ -468,11 +468,13 @@ const LIST_FIELD_MAPS: Record<string, Record<string, string>> = {
     experience: { role: 'role', company: 'company', period: 'period', desc: 'description' },
     portfolio: { title: 'title', category: 'category', thumbnail: 'thumbnail', video: 'video_url' },
     reels: { title: 'title', category: 'category', thumbnail: 'thumbnail', video: 'video_url' },
-    dj_gigs: { title: 'title', location: 'location', type: 'type' }
+    dj_gigs: { title: 'title', location: 'location', type: 'type' },
+    dj_genres: { name: 'name', icon: 'icon' },
+    dj_equipment: { name: 'name', desc: 'description' }
 };
 
 export const AdminDashboard: React.FC = () => {
-    const { email, token, logout } = useAdminAuth();
+    const { user, logout, loading: authLoading } = useAdminAuth();
     const [showMediaLibrary, setShowMediaLibrary] = useState(false);
     const [allContent, setAllContent] = useState<ContentRow[]>([]);
     const [loading, setLoading] = useState(true);
@@ -483,6 +485,12 @@ export const AdminDashboard: React.FC = () => {
     
     const [activeMode, setActiveMode] = useState<'editor' | 'dj'>('editor');
     const [activeTab, setActiveTab] = useState('hero');
+
+    useEffect(() => {
+        if (!authLoading && !user) {
+            window.location.hash = '#/admin/login';
+        }
+    }, [user, authLoading]);
 
     const fetchAllContent = async () => {
         try {
@@ -547,7 +555,7 @@ export const AdminDashboard: React.FC = () => {
     };
 
     const handleSave = async () => {
-        if (!token || modifiedIds.size === 0) return;
+        if (!user || modifiedIds.size === 0) return;
         setSaving(true);
 
         try {
@@ -561,19 +569,15 @@ export const AdminDashboard: React.FC = () => {
                 const tableName = TABLE_MAPPING[firstRow.section_name];
 
                 if (tableName === 'site_settings') {
-                    // Site settings are updated one by one
+                    // Site settings are updated directly
                     for (const row of rows) {
-                        const { data: rpcData, error: rpcError } = await supabase.rpc('admin_update_content', {
-                            p_token: token,
-                            p_section_name: row.section_name,
-                            p_content_key: row.key,
-                            p_content_value: row.value,
-                        });
+                        const { error: updateError } = await supabase
+                            .from('site_settings')
+                            .update({ value: row.value })
+                            .eq('section', row.section_name)
+                            .eq('key', row.key);
                         
-                        if (rpcError) throw rpcError;
-                        if (rpcData && rpcData.success === false) {
-                            throw new Error(rpcData.error || 'Failed to update setting');
-                        }
+                        if (updateError) throw updateError;
                     }
                 } else {
                     // List items are updated by row

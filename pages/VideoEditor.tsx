@@ -9,7 +9,7 @@ import { Contact } from "../components/ve/Contact";
 import { Footer } from "../components/Footer";
 import { CustomCursor } from "../components/CustomCursor";
 import { FloatingIcons } from "../components/ve/FloatingIcons";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Preloader } from "../components/Preloader";
 import { useSiteContent } from "../context/SiteContentContext";
 

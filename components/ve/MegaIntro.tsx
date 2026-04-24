@@ -40,7 +40,7 @@ export const MegaIntro: React.FC = () => {
   const aboutIntro = getVal('about', 'intro');
   const aboutBio = getVal('about', 'bio');
   const aboutQuote = getVal('about', 'quote');
-  const profileImagePath = getVal('about', 'profile_image') || '/assets/photos/thiru.png';
+  const profileImagePath = getVal('about', 'profile_image') || '';
 
   // Get image (but profile_image is excluded from RPC since it's type 'image')
   // We'll use the path directly since it's a local asset
@@ -133,7 +133,7 @@ export const MegaIntro: React.FC = () => {
               >
                 <div className="aspect-4/5 rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl relative">
                   <img
-                    src={profileSrc || '/assets/photos/thiru.png'}
+                    src={profileSrc || ''}
                     alt={heroName}
                     className="w-full h-full object-cover opacity-70 hover:opacity-100 transition-all duration-700"
                     loading="lazy"

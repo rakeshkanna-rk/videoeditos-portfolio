@@ -28,13 +28,21 @@ const useHashRoute = (): Route => {
 };
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAdminAuth();
+  const { isAuthenticated, loading } = useAdminAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
       window.location.hash = '#/admin/login';
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-sky-500/20 border-t-sky-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!isAuthenticated) return null;
   return <>{children}</>;

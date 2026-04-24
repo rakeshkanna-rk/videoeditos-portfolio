@@ -77,7 +77,7 @@ export const Software: React.FC = () => {
           {softwareItems.map((tool: any, index) => (
             <SoftwareCard key={tool.name || index} tool={{
                 ...tool,
-                icon: tool.icon || `/assets/photos/software/${tool.name?.toLowerCase().replace(/\s+/g, '')}.png`
+                icon: tool.icon || ""
             }} index={index} />
           ))}
         </div>
