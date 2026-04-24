@@ -135,7 +135,7 @@ export const MegaIntro: React.FC = () => {
                   <img
                     src={profileSrc || '/assets/photos/thiru.png'}
                     alt={heroName}
-                    className="w-full h-full object-cover grayscale opacity-70 hover:opacity-100 transition-all duration-700"
+                    className="w-full h-full object-cover opacity-70 hover:opacity-100 transition-all duration-700"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 border-15 border-slate-950/20 pointer-events-none" />
@@ -230,7 +230,11 @@ export const MegaIntro: React.FC = () => {
                     className="p-8 md:p-10 bg-slate-900/40 border border-slate-800 rounded-4xl flex gap-6 md:gap-8 items-start transition-all relative overflow-hidden group"
                   >
                     <div className="p-5 bg-sky-500/10 rounded-2xl text-sky-400 group-hover:scale-110 transition-transform duration-500 shrink-0">
-                      {IconComponent && <IconComponent size={28} />}
+                      {spec.icon && (spec.icon.startsWith('http') || spec.icon.startsWith('/')) ? (
+                        <img src={spec.icon} alt={spec.title} className="w-7 h-7 object-contain" />
+                      ) : (
+                        IconComponent && <IconComponent size={28} />
+                      )}
                     </div>
                     <div>
                       <h4 className="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-tight">

@@ -6,12 +6,10 @@ import { useImage } from "../../hooks/useImage";
 interface SoftwareItem {
   name: string;
   icon: string;
-  level: string;
 }
 
 const SoftwareCard: React.FC<{ tool: SoftwareItem; index: number }> = ({ tool, index }) => {
   const { src: iconSrc } = useImage(tool.icon);
-  const level = parseInt(tool.level) || 0;
 
   return (
     <motion.div
@@ -42,23 +40,9 @@ const SoftwareCard: React.FC<{ tool: SoftwareItem; index: number }> = ({ tool, i
         )}
       </motion.div>
 
-      <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-widest text-center">
+      <h3 className="text-xl font-bold text-white uppercase tracking-widest text-center">
         {tool.name}
       </h3>
-
-      <div className="relative h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
-          className="absolute inset-0 bg-sky-500 shadow-[0_0_10px_rgba(56,189,248,0.5)]"
-        />
-      </div>
-      <div className="mt-3 flex justify-between items-center text-[10px] text-slate-500 font-mono">
-        <span>EFFICIENCY</span>
-        <span>{level}%</span>
-      </div>
 
       {/* editor UI corner focus marks */}
       <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-white/10 group-hover:border-sky-500 transition-colors" />
@@ -68,34 +52,9 @@ const SoftwareCard: React.FC<{ tool: SoftwareItem; index: number }> = ({ tool, i
 };
 
 export const Software: React.FC = () => {
-  const { content, loading } = useSiteContent();
+  const { getList, loading } = useSiteContent();
 
-  // Build software list from content
-  const softwareItems: SoftwareItem[] = [];
-  if (content?.software) {
-    const items = content.software;
-    const indices = new Set<number>();
-    items.forEach((item: any) => {
-      const match = item.key.match(/^sw_(\d+)_/);
-      if (match) indices.add(parseInt(match[1]));
-    });
-    Array.from(indices).sort((a, b) => a - b).forEach(idx => {
-      const getName = items.find((i: any) => i.key === `sw_${idx}_name`);
-      const getLevel = items.find((i: any) => i.key === `sw_${idx}_level`);
-      if (getName) {
-        softwareItems.push({
-          name: getName.value,
-          icon: `/assets/photos/software/${getName.value.toLowerCase().replace(/\s+/g, '')}.png`,
-          level: getLevel?.value || '0',
-        });
-      }
-    });
-  }
-
-  // Get image paths from the DB (content_type = 'image' excluded from RPC, so use known paths)
-  // We need the image paths. Let's fetch them separately.
-  // Actually, since software icons are at known paths, we construct them from the name.
-  // But let's also query for them from the DB for correct paths.
+  const softwareItems = getList('software', 'soft_', ['name', 'icon']);
 
   return (
     <section className="py-24 bg-cinematic-navy relative">
@@ -115,8 +74,11 @@ export const Software: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {softwareItems.map((tool, index) => (
-            <SoftwareCard key={tool.name} tool={tool} index={index} />
+          {softwareItems.map((tool: any, index) => (
+            <SoftwareCard key={tool.name || index} tool={{
+                ...tool,
+                icon: tool.icon || `/assets/photos/software/${tool.name?.toLowerCase().replace(/\s+/g, '')}.png`
+            }} index={index} />
           ))}
         </div>
       </div>

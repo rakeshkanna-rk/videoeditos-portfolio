@@ -25,8 +25,8 @@ export const DJBooking: React.FC = () => {
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="bg-slate-900/80 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           {/* Decorative Background Elements */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full" />
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/10 blur-3xl rounded-full" />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-500/10 blur-3xl rounded-full" />
 
           <div className="relative z-10 text-center">
             <motion.div

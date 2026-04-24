@@ -4,7 +4,7 @@ import { Sparkles, Zap, Music2, Cpu, Headphones } from "lucide-react";
 import { useSiteContent } from "../../context/SiteContentContext";
 
 export const DJAbout: React.FC = () => {
-  const { getVal, content } = useSiteContent();
+  const { getVal, getList } = useSiteContent();
 
   const experienceCount = getVal('dj_about', 'experience_count') || '10+ live shows';
   const aboutP1 = getVal('dj_about', 'about_p1');
@@ -14,21 +14,9 @@ export const DJAbout: React.FC = () => {
   const card2Title = getVal('dj_about', 'card2_title') || 'High Energy';
   const card2Subtitle = getVal('dj_about', 'card2_subtitle') || 'Crowd Interaction';
 
-  // Build genres list
-  const genres: string[] = [];
-  if (content?.dj_genres) {
-    content.dj_genres.forEach((item: any) => {
-      genres.push(item.value);
-    });
-  }
-
-  // Build equipment list
-  const equipment: string[] = [];
-  if (content?.dj_equipment) {
-    content.dj_equipment.forEach((item: any) => {
-      equipment.push(item.value);
-    });
-  }
+  // Build lists using the helper
+  const genres = getList('dj_genres', 'genre_', ['name', 'icon']);
+  const equipment = getList('dj_equipment', 'equip_', ['name', 'desc']);
 
   return (
     <section className="py-24  relative overflow-hidden">
@@ -99,12 +87,12 @@ export const DJAbout: React.FC = () => {
                 Music Genres
               </h3>
               <div className="flex flex-wrap gap-2">
-                {genres.map((genre) => (
+                {genres.map((genre, idx) => (
                   <span
-                    key={genre}
-                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-slate-300"
+                    key={idx}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-slate-300 flex items-center gap-2"
                   >
-                    {genre}
+                    {genre.name}
                   </span>
                 ))}
               </div>
@@ -119,10 +107,17 @@ export const DJAbout: React.FC = () => {
                 {equipment.map((item, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center gap-4 text-slate-400"
+                    className="flex flex-col gap-1 text-slate-400"
                   >
-                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                    {item}
+                    <div className="flex items-center gap-4">
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                      <span className="text-white font-bold">{item.name}</span>
+                    </div>
+                    {item.desc && (
+                      <p className="text-[10px] text-slate-500 ml-5 leading-tight italic">
+                        {item.desc}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>

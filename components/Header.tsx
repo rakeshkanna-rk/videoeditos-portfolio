@@ -17,7 +17,6 @@ export const Header: React.FC = () => {
     { name: 'About', href: '#about' },
     { name: 'Experience', href: '#experience' },
     { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -53,7 +52,7 @@ export const Header: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             className="px-6 py-2 border border-sky-500/50 text-sky-400 text-xs font-bold rounded-lg uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all"
           >
-            Hire Me
+            Contact
           </motion.a>
         </nav>
 

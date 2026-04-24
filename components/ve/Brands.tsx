@@ -18,7 +18,7 @@ const BrandLogo: React.FC<{ brand: BrandData }> = ({ brand }) => {
       <img
         src={logoSrc}
         alt={brand.name}
-        className="h-8 md:h-20 w-auto object-contain grayscale-0 md:grayscale-75 opacity-30 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+        className="h-8 md:h-20 w-auto object-contain"
         loading="lazy"
       />
     </div>
@@ -26,27 +26,9 @@ const BrandLogo: React.FC<{ brand: BrandData }> = ({ brand }) => {
 };
 
 export const Brands: React.FC = () => {
-  const { content } = useSiteContent();
+  const { getList } = useSiteContent();
 
-  // Build brands list from content
-  const brands: BrandData[] = [];
-  if (content?.brands) {
-    const items = content.brands;
-    const indices = new Set<number>();
-    items.forEach((item: any) => {
-      const match = item.key.match(/^brand_(\d+)_/);
-      if (match) indices.add(parseInt(match[1]));
-    });
-    Array.from(indices).sort((a, b) => a - b).forEach(idx => {
-      const name = items.find((i: any) => i.key === `brand_${idx}_name`);
-      if (name) {
-        brands.push({
-          name: name.value,
-          logo: `/assets/photos/brands/${name.value.toLowerCase().replace(/\s+/g, '').replace(/&/g, '')}.png`,
-        });
-      }
-    });
-  }
+  const brands = getList('brands', 'brand_', ['name', 'logo']) as unknown as BrandData[];
 
   // Duplicate brands for seamless scroll loop
   const brandsList = [...brands, ...brands, ...brands, ...brands];
@@ -76,8 +58,8 @@ export const Brands: React.FC = () => {
           }}
           className="flex whitespace-nowrap gap-16 md:gap-32 items-center py-4"
         >
-          {brandsList.map((brand, i) => (
-            <BrandLogo key={i} brand={brand} />
+          {brandsList.map((brands, i) => (
+            <BrandLogo key={i} brand={brands} />
           ))}
         </motion.div>
       </div>

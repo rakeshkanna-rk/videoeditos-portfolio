@@ -8,7 +8,6 @@ export interface Experience {
 export interface Software {
   name: string;
   icon: string;
-  level: number;
 }
 
 export interface Project {

@@ -82,8 +82,10 @@ export const SiteContentProvider: React.FC<{ children: ReactNode }> = ({ childre
         // Find the max index by scanning keys like prefix + "1_" + field
         const indices = new Set<number>();
         items.forEach((item: ContentItem) => {
-            const match = item.key.match(new RegExp(`^${prefix}(\\d+)_`));
-            if (match) indices.add(parseInt(match[1]));
+            if (item && item.key) {
+                const match = item.key.match(new RegExp(`^${prefix}(\\d+)_`));
+                if (match) indices.add(parseInt(match[1]));
+            }
         });
 
         const sortedIndices = Array.from(indices).sort((a, b) => a - b);

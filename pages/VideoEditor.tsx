@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { MegaIntro } from "../components/ve/MegaIntro";
 import { Software } from "../components/ve/Software";
@@ -9,15 +9,51 @@ import { Contact } from "../components/ve/Contact";
 import { Footer } from "../components/Footer";
 import { CustomCursor } from "../components/CustomCursor";
 import { FloatingIcons } from "../components/ve/FloatingIcons";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Preloader } from "../components/Preloader";
+import { useSiteContent } from "../context/SiteContentContext";
 
 export const VideoEditor: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { content } = useSiteContent();
+
   useEffect(() => {
     document.body.classList.add("opacity-100");
   }, []);
 
+  // Background Video Preloading
+  useEffect(() => {
+    if (!isLoading && content) {
+      const videos: string[] = [];
+      Object.values(content).forEach(section => {
+        section.forEach(item => {
+          if ((item.type === 'url' || item.type === 'video') && item.value && (item.value.includes('.mp4') || item.value.includes('.mov'))) {
+            videos.push(item.value);
+          }
+        });
+      });
+
+      const uniqueVideos = Array.from(new Set(videos));
+      uniqueVideos.forEach(src => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'video';
+        link.href = src;
+        document.head.appendChild(link);
+      });
+    }
+  }, [isLoading, content]);
+
   return (
-    <div className="relative selection:bg-sky-500 selection:text-white">
+    <>
+      <Preloader onComplete={() => setIsLoading(false)} />
+      
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoading ? 0 : 1 }}
+        transition={{ duration: 1 }}
+        className="relative selection:bg-sky-500 selection:text-white"
+      >
       <FloatingIcons />
       <CustomCursor />
       <Header />
@@ -73,6 +109,7 @@ export const VideoEditor: React.FC = () => {
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-px h-4 bg-white/10" />
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-px h-4 bg-white/10" />
       </div>
-    </div>
+    </motion.div>
+    </>
   );
 };

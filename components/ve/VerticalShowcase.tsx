@@ -72,7 +72,7 @@ export const VerticalShowcase: React.FC = () => {
   return (
     <section id="reels" className="py-24 bg-slate-950 relative overflow-hidden">
       {/* Decorative background */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
 
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 text-center md:text-left">
@@ -116,7 +116,7 @@ export const VerticalShowcase: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-500 flex items-center justify-center p-4 backdrop-blur-3xl bg-slate-950/95"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-3xl bg-slate-950/95"
             onClick={() => setSelectedReel(null)}
           >
             <motion.div
