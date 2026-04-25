@@ -1,12 +1,10 @@
 import React from "react";
-import { useSiteContent } from "../context/SiteContentContext";
 
 export const Footer: React.FC = () => {
-  const { getVal } = useSiteContent();
 
-  const copyrightName = getVal('footer', 'copyright_name') || 'Thiruvasagam';
-  const developerName = getVal('footer', 'developer_name') || 'Rakesh Kanna S';
-  const developerUrl = getVal('footer', 'developer_url') || 'https://rakeshkanna-rk.github.io';
+  const copyrightText = "© 2026 Thiruvasagam. All rights reserved.";
+  const developerName = "Rakesh Kanna S";
+  const developerUrl = "https://rakeshkanna-rk.github.io";
 
   return (
     <footer className="py-12 border-t border-slate-900 md:pb-20">
@@ -18,8 +16,7 @@ export const Footer: React.FC = () => {
 
           <div className="text-slate-500 text-sm font-light text-center md:text-right">
             <p>
-              &copy; {new Date().getFullYear()} {copyrightName}. All rights
-              reserved.
+              {copyrightText}
             </p>
             <p className="mt-1 text-xs text-slate-600">
               Developed by{" "}

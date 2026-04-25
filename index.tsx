@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { SiteContentProvider } from "./context/SiteContentContext";
+import { ToastProvider } from "./context/ToastContext";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <SiteContentProvider>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </SiteContentProvider>
   </React.StrictMode>,
 );

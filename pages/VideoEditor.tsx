@@ -12,6 +12,7 @@ import { FloatingIcons } from "../components/ve/FloatingIcons";
 import { motion } from "framer-motion";
 import { Preloader } from "../components/Preloader";
 import { useSiteContent } from "../context/SiteContentContext";
+import { ExpertAreas } from "@/components/ve/ExpertAreas";
 
 export const VideoEditor: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -78,14 +79,17 @@ export const VideoEditor: React.FC = () => {
         />
       </div>
 
-      <main className="relative z-10">
+      <main className="relative">
         <MegaIntro />
+        <div id="portfolio">
+          <VerticalShowcase />
+          <Portfolio />
+        </div>
+        <ExpertAreas />
         <Software />
         <div id="experience">
           <Experience />
         </div>
-        <Portfolio />
-        <VerticalShowcase />
         <Contact />
       </main>
 

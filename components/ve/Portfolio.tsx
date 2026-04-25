@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSiteContent } from "../../context/SiteContentContext";
 import { useImage } from "../../hooks/useImage";
@@ -12,7 +13,11 @@ interface ProjectData {
   videoUrl: string;
 }
 
-const ProjectCard: React.FC<{ project: ProjectData; index: number; onClick: () => void }> = ({ project, index, onClick }) => {
+const ProjectCard: React.FC<{
+  project: ProjectData;
+  index: number;
+  onClick: () => void;
+}> = ({ project, index, onClick }) => {
   const { src: thumbnailSrc } = useImage(project.thumbnail);
 
   return (
@@ -76,14 +81,23 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number; onClick: () =
 
 export const Portfolio: React.FC = () => {
   const [filter, setFilter] = useState("All");
-  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(
+    null,
+  );
   const { getVal, getList } = useSiteContent();
 
-  const sectionTitle = getVal('portfolio', 'section_title') || 'Selected Works';
-  const sectionSubtitle = getVal('portfolio', 'section_subtitle') || 'A curated list of projects that define my creative direction and technical execution.';
+  const sectionTitle = getVal("portfolio", "section_title") || "Selected Works";
+  const sectionSubtitle =
+    getVal("portfolio", "section_subtitle") ||
+    "A curated list of projects that define my creative direction and technical execution.";
 
   // Build projects from content
-  const projectsData = getList('portfolio', 'proj_', ['title', 'category', 'thumbnail', 'video']);
+  const projectsData = getList("portfolio", "proj_", [
+    "title",
+    "category",
+    "thumbnail",
+    "video",
+  ]);
   const projects: ProjectData[] = projectsData.map((p, i) => ({
     id: i + 1,
     title: p.title,
@@ -93,11 +107,12 @@ export const Portfolio: React.FC = () => {
   }));
 
   const categories = ["All", ...new Set(projects.map((p) => p.category))];
-  const filteredProjects = filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const filteredProjects =
+    filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
   return (
     <section
-      id="portfolio"
+      // id="portfolio"
       className="py-24 bg-cinematic-navy relative overflow-hidden"
     >
       <div className="container mx-auto px-6">
@@ -108,8 +123,10 @@ export const Portfolio: React.FC = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-7xl font-bold uppercase mb-4 tracking-tighter">
-              {sectionTitle.split(' ').slice(0, -1).join(' ')}{" "}
-              <span className="text-sky-500 italic">{sectionTitle.split(' ').slice(-1)[0]}</span>
+              {sectionTitle.split(" ").slice(0, -1).join(" ")}{" "}
+              <span className="text-sky-500 italic">
+                {sectionTitle.split(" ").slice(-1)[0]}
+              </span>
             </h2>
             <p className="text-slate-400 max-w-md font-light">
               {sectionSubtitle}
@@ -126,10 +143,11 @@ export const Portfolio: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${filter === cat
+                className={`px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${
+                  filter === cat
                     ? "bg-sky-500 text-slate-950 border-sky-500 shadow-[0_10px_30px_rgba(56,189,248,0.3)]"
                     : "bg-transparent text-slate-500 border-slate-800 hover:border-slate-600"
-                  }`}
+                }`}
               >
                 {cat}
               </button>
@@ -152,42 +170,55 @@ export const Portfolio: React.FC = () => {
       </div>
 
       {/* Video Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-500 flex items-center justify-center p-4 md:p-10 backdrop-blur-2xl bg-slate-950/90"
-            onClick={() => setSelectedProject(null)}
-          >
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedProject && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-6xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-9999 flex items-center justify-center p-4 md:p-10 backdrop-blur-2xl bg-slate-950/90"
+              onClick={() => setSelectedProject(null)}
             >
-              <button
-                className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-                onClick={() => setSelectedProject(null)}
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="relative w-full max-w-6xl max-h-[85vh] aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+                onClick={(e) => e.stopPropagation()}
               >
-                <X size={24} />
-              </button>
+                <button
+                  className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+                  onClick={() => setSelectedProject(null)}
+                >
+                  <X size={24} />
+                </button>
 
-              <video
-                src={selectedProject.videoUrl}
-                title={selectedProject.title}
-                className="w-full h-full object-cover"
-                controls
-                autoPlay
-                playsInline
-                loop
-              ></video>
+                {selectedProject.videoUrl.includes('youtube.com') || selectedProject.videoUrl.includes('youtu.be') ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${selectedProject.videoUrl.split('v=')[1]?.split('&')[0] || selectedProject.videoUrl.split('/').pop()}?autoplay=1`}
+                    title={selectedProject.title}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <video
+                    src={selectedProject.videoUrl}
+                    title={selectedProject.title}
+                    className="w-full h-full object-cover"
+                    controls
+                    autoPlay
+                    playsInline
+                    loop
+                  ></video>
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 };

@@ -1,10 +1,11 @@
 import React from "react";
-import { Send, Instagram, Linkedin, Twitter, Mail, Phone, CheckCircle, RefreshCw } from "lucide-react";
+import { Send, Instagram, Linkedin, Twitter, Mail, Phone, CheckCircle, RefreshCw, Globe } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSiteContent } from "../../context/SiteContentContext";
 
 export const Contact: React.FC = () => {
-  const { getVal } = useSiteContent();
+  const { getVal, getList } = useSiteContent();
 
   const heading = getVal('contact', 'heading') || "Let's Create Something Cinematic";
   const description = getVal('contact', 'description') || "Ready to take your content to the next level?";
@@ -45,6 +46,9 @@ export const Contact: React.FC = () => {
       setIsSending(false);
     }
   };
+
+  // Fetch dynamic social links
+  const socialLinks = getList('social_links', 'social_', ['name', 'url', 'icon']);
 
   return (
     <section id="contact" className="py-24 bg-slate-950 relative overflow-hidden">
@@ -104,16 +108,22 @@ export const Contact: React.FC = () => {
                   </div>
                 </a>
                 <div className="flex gap-4 pt-4">
-                  {[Instagram, Linkedin, Twitter].map((Icon, i) => (
-                    <motion.a
-                      key={i}
-                      href="#"
-                      whileHover={{ y: -5, scale: 1.1 }}
-                      className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </motion.a>
-                  ))}
+                  {socialLinks.map((social, i) => {
+                    const Icon = (LucideIcons as any)[social.icon] || Globe;
+                    return (
+                      <motion.a
+                        key={i}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ y: -5, scale: 1.1 }}
+                        className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+                        title={social.name}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </motion.a>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
